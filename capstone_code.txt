@@ -1,0 +1,57 @@
+# TO DO scale 
+from sklearn.preprocessing import StandardScaler
+
+std_x = StandardScaler()
+X_train = std_x.fit_transform(X_train)
+X_test = std_x.transform(X_test)
+
+
+# TO DO PCA 
+from sklearn.decomposition import PCA
+
+pca = PCA()
+pca.fit(X_train) 
+
+
+plt.figure(figsize=(20, 5))
+plt.bar(range(len(pca.explained_variance_ratio_)), pca.explained_variance_ratio_)
+plt.xlabel('Principal Components')
+plt.ylabel('Percent of Variance explained')
+plt.show()
+
+
+plt.plot(np.cumsum(pca.explained_variance_ratio_))
+plt.xlabel('Num. of Components')
+plt.ylabel('Percent of Variance explained')
+plt.grid()
+
+def weights(num):
+    var_weights = pd.Series(pca.components_[num], index = scaled_azdias.columns)
+    df = pd.DataFrame(var_weights.sort_values(), columns = ['weight'])
+    df.reset_index(inplace = True)
+    df.rename(columns = {'index': 'features'}, inplace = True)
+    return df
+# find scalable features of data frame
+df1 = df0 
+scalable = df1.iloc[: , 1:-13]
+scalable.isnull().sum().sum()
+scalable = scalable.loc[: , ~scalable.columns.isin(['EPS', 'EPS Diluted', 'Dividend per Share', 'Gross Margin', 'EBITDA Margin', 'EBIT Margin', 'Profit Margin', 'Free Cash Flow margin','Earnings Before Tax Margin', 'Net Profit Margin', 'Net cash flow / Change in cash', 'Net Cash/Marketcap'])]
+exclude = scalable.loc[:, 'priceBookValueRatio': 'Interest Debt per Share']
+scalable = scalable.loc[:, ~scalable.columns.isin(exclude)]
+scalable.drop(scalable.loc[:, 'PE ratio': 'SG&A Expenses Growth'].columns, axis=1, inplace=True)
+
+# scale scalable features 
+scaled = scalable.div(scalable['Market Cap'], axis=0)
+scaled = scaled * scalable['Market Cap'].mean()   # so that the other features contain values that are representative of what would be expected (not actual value though)
+
+# replace columns with scaled columns 
+for i in df1.columns: 
+    for ii in scaled.columns: 
+        if i == ii: 
+            df1[i] = scaled[ii]
+            
+# code to select X, y for 'Financial Services'
+df2 = df0[df0['Financial Services']==1]
+df2.drop(hot_encoded.columns, axis=1, inplace=True)
+X1 = df2.drop(['Percent_Change', 'Class', 'Ticker', 'Sector'], axis=1)
+y1 = df2['Percent_Change']
