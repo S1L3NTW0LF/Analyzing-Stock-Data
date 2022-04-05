@@ -1,4 +1,4 @@
-# Capstone
+# Analyzing-Stock-Data
 Final project for university that uses machine learning to analyze financial statements and ratios to predict price movement. 
 
 ## Context 
