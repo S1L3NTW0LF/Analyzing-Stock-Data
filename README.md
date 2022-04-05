@@ -19,7 +19,7 @@ Sample financial data is run through RandomForestRegressor
 
 7. A list of stocks is produced 
 
-
+Sample Dataset used is from: www.kaggle.com/cnic92/200-financial-indicators-of-us-stocks-20142018/code
 
 
  
